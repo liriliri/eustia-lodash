@@ -1,0 +1,23 @@
+{
+  "name": "eustia-lodash",
+  "version": "0.0.1",
+  "description": "Eustia lodash adapter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liriliri/eustia-lodash.git"
+  },
+  "author": "redhoodsu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liriliri/eustia-lodash/issues"
+  },
+  "homepage": "https://github.com/liriliri/eustia-lodash#readme",
+  "devDependencies": {
+    "glob": "^7.0.3",
+    "lodash": "^4.11.1"
+  }
+}
