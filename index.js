@@ -35,7 +35,7 @@ function processFile(fileName, data)
     data = data.replace(/\bmodule.exports\b/, 'exports');
 
     var regRequire = /require\(['"]([./_\w]*)['"]\)/g,
-        regAlias = /module\.exports\s*=\s*require\(/;
+        regAlias = /exports\s*=\s*require\(/;
 
     var requireName, dependencies = [];
 
