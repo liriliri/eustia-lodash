@@ -24,9 +24,13 @@ function start(files)
     });
 }
 
+var exclude = ['fp.js', 'core.js', 'core.min.js', 'lodash.js', 'lodash.min.js'];
+
 function processFile(fileName, data)
 {
-    if (fileName === 'fp.js') return;
+    if (exclude.indexOf(fileName) > -1) return;
+
+    data = util.stripCmts(data);
 
     data = data.replace(/\bmodule.exports\b/, 'exports');
 
@@ -60,7 +64,7 @@ function processFile(fileName, data)
         data = '_(\'' + dependencies.join(' ') + '\');\n\n' + util.trim(data);
     }
 
-    writeFile(fileName, data);
+    writeFile(fileName, util.trim(data));
 }
 
 function writeFile(fileName, data)
