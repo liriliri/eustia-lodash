@@ -26,24 +26,39 @@ function start(files)
 
 function processFile(fileName, data)
 {
-    var modName = fileName.slice(0, -3);
+    if (fileName === 'fp.js') return;
 
-    var regRequire = /require\(['"]([./_\w]*)['"]\)/;
+    data = data.replace(/\bmodule.exports\b/, 'exports');
 
-    var requireName;
+    var regRequire = /require\(['"]([./_\w]*)['"]\)/g,
+        regAlias = /module\.exports\s*=\s*require\(/;
+
+    var requireName, dependencies = [];
 
     while ((requireName = regRequire.exec(data)) !== null)
     {
-        var msg = 'Found ' + myArray[0] + '. ';
-        msg += 'Next match starts at ' + myRe.lastIndex;
-        console.log(msg);
+        requireName = requireName[1].slice(2);
+        dependencies.push(requireName);
+
+        if (requireName[0] === '_')
+        {
+            requireName = requireName.slice(1);
+            data = data.replace(new RegExp('\\b' + requireName, 'g'), '_' + requireName);
+        }
     }
 
-    var requires = data.match(g);
+    if (!regAlias.test(data))
+    {
+        data = data.replace(/.*require\(.*\n/g, '');
+    } else
+    {
+        data = data.replace('require(\'./', '').replace('\')', '');
+    }
 
-    console.log(requires);
-
-    data = data.replace(/\bmodule.exports\b/, modName);
+    if (dependencies.length > 0)
+    {
+        data = '_(\'' + dependencies.join(' ') + '\');\n\n' + util.trim(data);
+    }
 
     writeFile(fileName, data);
 }
